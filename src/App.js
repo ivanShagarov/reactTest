@@ -27,7 +27,7 @@ const styles = {
 class App extends Component {
 
   componentWillMount() {
-    this.state = { leftItems: ["BY.03.28, Сосновец", 
+    this.setState({ leftItems: ["BY.03.28, Сосновец", 
                                 "BY.03.29, Сосновец",
                                 "BY.03.30, Сосновец",
                                 "BY.03.31, Сосновец",
@@ -37,7 +37,7 @@ class App extends Component {
                                 "BY.03.35, Сосновец",
                                 "BY.03.36, Сосновец",
                               ], 
-                   rightItems: [] };
+                   rightItems: [] });
     this.addItemsToCart = this.addItemsToCart.bind(this);
   }
 

@@ -37,7 +37,7 @@ function collect(connect, monitor) {
 class Cart extends React.Component {
 
   componentWillMount() {
-    this.state = { selectedFields: [], lastSelectedIndex: -1 };
+    this.setState({ selectedFields: [], lastSelectedIndex: -1 });
     this.handleItemSelection = this.handleItemSelection.bind(this);
     this.clearItemSelection = this.clearItemSelection.bind(this);
     this.handleItemSelection(-1, false, false, false);

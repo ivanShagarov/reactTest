@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
+import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 
 const dragSource = DragSource;
 
@@ -9,7 +10,7 @@ const getFieldStyle = (isDragging, selected) => {
   const style = {
     borderStyle: 'dashed',
     borderWidth: 1,
-    height: 40,
+    height: 50,
     margin: 5,
     textAlign: 'left',
     paddingLeft: 10,
@@ -18,6 +19,15 @@ const getFieldStyle = (isDragging, selected) => {
   style.backgroundColor = selected ? 'pink' : '#87cefa';
   style.opacity = isDragging ? 0.5 : 1;
   return style;
+};
+
+const styles = {
+  delete: {
+    width: '100%',
+    textAlign: 'right',
+    marginTop: -37,
+    marginRight: 20,
+  },
 };
 
 const fieldSource = {
@@ -56,6 +66,8 @@ const collect = (connect, monitor) => ({
 });
 
 class Item extends React.Component {
+  state = { open: false }
+
   componentDidMount() {
     // Use empty image as a drag preview so browsers don't draw it
     // and we can draw whatever we want on the custom drag layer instead.
@@ -68,6 +80,9 @@ class Item extends React.Component {
     this.handleRowSelection = this.handleRowSelection.bind(this);
   }
 
+  close = () => this.setState({ open: false });
+  showModal = () => this.setState({ open: true });
+
   handleRowSelection(cmdKey, shiftKey, ctrlKey, index) {
     this.props.handleSelection(index, cmdKey, shiftKey, ctrlKey);
   }
@@ -75,6 +90,8 @@ class Item extends React.Component {
   render() {
     const selected = this.props.selectedFields.find(field => this.props.name === field);
     const [id, location] = this.props.name.split(', ');
+    const { open } = this.state;
+
     return this.props.connectDragSource(
         <div
           style={getFieldStyle(false, selected)}
@@ -82,6 +99,32 @@ class Item extends React.Component {
         >
           {id} <br />
           {location}
+          <div style={styles.delete}>
+            
+          <Button icon onClick={this.showModal}><Icon name='trash' /></Button>
+
+            <Modal
+              open={open}
+              closeIcon
+              onClose={this.close}
+            >
+              <Header icon='archive' content='Удалить систему ЛХ' />
+              <Modal.Content>
+                <p>
+                  Вы уверены что хотите удалить данную систему ЛХ?
+                </p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button color='red' onClick={this.close}>
+                  <Icon name='remove' /> Нет
+                </Button>
+                <Button color='green' onClick={this.close}>
+                  <Icon name='checkmark' /> Да
+                </Button>
+              </Modal.Actions>
+            </Modal>
+
+          </div>
         </div>);
   }
 }
