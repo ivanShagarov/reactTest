@@ -26,8 +26,9 @@ const styles = {
 
 class App extends Component {
 
-  componentWillMount() {
-    this.setState({ leftItems: ["BY.03.28, Сосновец", 
+  constructor(props) {
+    super(props);
+    this.state = { leftItems: ["BY.03.28, Сосновец", 
                                 "BY.03.29, Сосновец",
                                 "BY.03.30, Сосновец",
                                 "BY.03.31, Сосновец",
@@ -37,10 +38,10 @@ class App extends Component {
                                 "BY.03.35, Сосновец",
                                 "BY.03.36, Сосновец",
                               ], 
-                   rightItems: [] });
-    this.addItemsToCart = this.addItemsToCart.bind(this);
+                   rightItems: [] };
+    this.addItemsToCart = this.addItemsToCart.bind(this);  
   }
-
+  
   addItemsToCart(items, source, dropResult) {
     const leftItems = source === 'left' ? this.state.leftItems.filter(x => items.findIndex(y => x === y) < 0) :
       this.state.leftItems.concat(items);

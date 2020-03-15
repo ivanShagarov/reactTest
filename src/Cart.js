@@ -36,15 +36,20 @@ function collect(connect, monitor) {
 
 class Cart extends React.Component {
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({ selectedFields: [], lastSelectedIndex: -1 });
     this.handleItemSelection = this.handleItemSelection.bind(this);
     this.clearItemSelection = this.clearItemSelection.bind(this);
+    this.closeAndDelete = this.closeAndDelete.bind(this);
     this.handleItemSelection(-1, false, false, false);
   }
 
   clearItemSelection() {
     this.setState({ selectedFields: [], lastSelectedIndex: -1 });
+  }
+
+  closeAndDelete(index) {
+    this.props.fields.splice(index, 1);
   }
 
   handleItemSelection(index, cmdKey, shiftKey, ctrlKey) {
@@ -63,7 +68,6 @@ class Cart extends React.Component {
           fields.slice(this.state.lastSelectedIndex + 1, index + 1));
       }
     } else if (cmdKey || ctrlKey) {
-      console.log("Ctrl key", ctrlKey);
       const foundIndex = this.state.selectedFields.findIndex(f => f === field);
       // If found remove it to unselect it.
       if (foundIndex >= 0) {
@@ -77,7 +81,7 @@ class Cart extends React.Component {
     }
     const finalList = fields ? fields
       .filter(f => selectedFields.find(a => a === f)) : [];
-    this.setState({ selectedFields: finalList, lastSelectedIndex });
+      this.setState({ selectedFields: finalList, lastSelectedIndex }); 
   }
 
   render() {
@@ -90,6 +94,7 @@ class Cart extends React.Component {
         clearItemSelection={this.clearItemSelection}
         selectedFields={this.state.selectedFields}
         handleSelection={this.handleItemSelection}
+        closeAndDelete={this.closeAndDelete}
         index={index}
       />));
     return this.props.connectDropTarget(<div style={id === 'left' ? styles.content : styles.contentRight}> {items} </div>);

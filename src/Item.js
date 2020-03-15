@@ -33,7 +33,6 @@ const styles = {
 const fieldSource = {
   beginDrag(props) {
     let dragFields;
-    // debugger;
     if (props.selectedFields.find(field => field === props.name)) {
       dragFields = props.selectedFields;
     } else {
@@ -81,7 +80,13 @@ class Item extends React.Component {
   }
 
   close = () => this.setState({ open: false });
+
   showModal = () => this.setState({ open: true });
+
+  closeAndDelete(index) {
+    this.props.closeAndDelete(index);
+    this.setState({ open: false });
+  }
 
   handleRowSelection(cmdKey, shiftKey, ctrlKey, index) {
     this.props.handleSelection(index, cmdKey, shiftKey, ctrlKey);
@@ -118,7 +123,7 @@ class Item extends React.Component {
                 <Button color='red' onClick={this.close}>
                   <Icon name='remove' /> Нет
                 </Button>
-                <Button color='green' onClick={this.close}>
+                <Button color='green' onClick={() => this.closeAndDelete(this.props.index)}>
                   <Icon name='checkmark' /> Да
                 </Button>
               </Modal.Actions>
