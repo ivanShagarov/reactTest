@@ -21,7 +21,7 @@ const styles = {
     justifyContent: 'left',
     alignItems: 'stretch',
     alignContent: 'stretch',
-  },
+  }
 };
 
 class App extends Component {
@@ -37,11 +37,17 @@ class App extends Component {
                                 "BY.03.34, Сосновец",
                                 "BY.03.35, Сосновец",
                                 "BY.03.36, Сосновец",
+                                "BY.03.37, Сосновец",
+                                "BY.03.38, Сосновец",
+                                "BY.03.39, Сосновец",
+                                "BY.03.40, Сосновец",
+                                "BY.03.41, Сосновец",
+                                "BY.03.42, Сосновец",
                               ], 
                    rightItems: [] };
     this.addItemsToCart = this.addItemsToCart.bind(this);  
   }
-  
+
   addItemsToCart(items, source, dropResult) {
     const leftItems = source === 'left' ? this.state.leftItems.filter(x => items.findIndex(y => x === y) < 0) :
       this.state.leftItems.concat(items);

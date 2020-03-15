@@ -8,12 +8,16 @@ const styles = {
     borderStyle: 'solid',
     width: 300,
     marginLeft: 10,
+    height: '600px',
+    overflow: 'auto',
   },
   contentRight: {
     borderStyle: 'solid',
     marginLeft: 20,
     marginRight: 10,
     width: '100%',
+    height: '600px',
+    overflow: 'auto',
   },
 };
 
