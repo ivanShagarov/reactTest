@@ -6,7 +6,7 @@ import { Button, Header, Icon, Modal } from 'semantic-ui-react';
 
 const dragSource = DragSource;
 
-const getFieldStyle = (isDragging, selected) => {
+const getFieldStyle = (isDragging, selected, isDetector) => {
   const style = {
     borderStyle: 'dashed',
     borderWidth: 1,
@@ -16,8 +16,9 @@ const getFieldStyle = (isDragging, selected) => {
     paddingLeft: 10,
     paddingTop: 5,
   };
-  style.backgroundColor = selected ? 'pink' : '#87cefa';
+  style.backgroundColor = selected ? isDetector ? 'yellow' : 'pink' : isDetector ? 'yellow' : '#87cefa';
   style.opacity = isDragging ? 0.5 : 1;
+  style.paddingTop = isDetector ? 15 : 5;
   return style;
 };
 
@@ -28,11 +29,19 @@ const styles = {
     marginTop: -37,
     marginRight: 20,
   },
+  deleteDetector: {
+    width: '100%',
+    textAlign: 'right',
+    marginTop: -28,
+    marginRight: 20,
+  },
 };
 
 const fieldSource = {
   beginDrag(props) {
     let dragFields;
+    const [id, location] = props.name.split(', ');
+    if (!location) return {fields: []};
     if (props.selectedFields.find(field => field === props.name)) {
       dragFields = props.selectedFields;
     } else {
@@ -95,19 +104,18 @@ class Item extends React.Component {
   render() {
     const selected = this.props.selectedFields.find(field => this.props.name === field);
     const [id, location] = this.props.name.split(', ');
+    const isDetector = location ? false : true;
     const { open } = this.state;
 
     return this.props.connectDragSource(
         <div
-          style={getFieldStyle(false, selected)}
+          style={getFieldStyle(false, selected, isDetector)}
           onClick={(e) => this.handleRowSelection(e.metaKey, e.shiftKey, e.ctrlKey, this.props.index)}
         >
           {id} <br />
           {location}
-          <div style={styles.delete}>
-            
-          <Button icon onClick={this.showModal}><Icon name='trash' /></Button>
-
+          <div style={isDetector ? styles.deleteDetector : styles.delete}>
+            <Button icon onClick={this.showModal}><Icon name='trash' /></Button>
             <Modal
               open={open}
               closeIcon
@@ -128,7 +136,6 @@ class Item extends React.Component {
                 </Button>
               </Modal.Actions>
             </Modal>
-
           </div>
         </div>);
   }
